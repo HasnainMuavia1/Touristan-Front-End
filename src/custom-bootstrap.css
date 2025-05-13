@@ -1,0 +1,65 @@
+/* Custom Bootstrap overrides to ensure consistent color scheme */
+
+:root {
+  --bs-primary: #1e3a5f !important;
+  --bs-primary-rgb: 30, 58, 95 !important;
+}
+
+.bg-primary {
+  background-color: #1e3a5f !important;
+}
+
+.text-primary {
+  color: #1e3a5f !important;
+}
+
+.btn-primary {
+  background-color: #1e3a5f !important;
+  border-color: #1e3a5f !important;
+}
+
+.btn-outline-primary {
+  color: #1e3a5f !important;
+  border-color: #1e3a5f !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1e3a5f !important;
+  color: #fff !important;
+}
+
+.border-primary {
+  border-color: #1e3a5f !important;
+}
+
+/* Service icon wrappers */
+.service-icon-wrapper.bg-primary.bg-opacity-10 {
+  background-color: rgba(30, 58, 95, 0.1) !important;
+}
+
+/* Progress bars */
+.progress-bar.bg-primary {
+  background-color: #1e3a5f !important;
+}
+
+/* Links */
+a.text-primary:hover, 
+a.text-primary:focus {
+  color: #15293f !important;
+}
+
+/* Form focus states */
+.form-control:focus {
+  border-color: #1e3a5f !important;
+  box-shadow: 0 0 0 0.25rem rgba(30, 58, 95, 0.25) !important;
+}
+
+/* Active states for nav items */
+.nav-link.active {
+  color: #1e3a5f !important;
+}
+
+/* Spinners */
+.spinner-border.text-primary {
+  color: #1e3a5f !important;
+}
