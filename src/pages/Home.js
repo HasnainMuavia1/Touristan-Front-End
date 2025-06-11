@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -8,8 +8,20 @@ import {
   Form,
   InputGroup,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Handle search submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/packages?search=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
   return (
     <>
       {/* Hero Section - Full width, no container constraints */}
@@ -42,43 +54,48 @@ const Home = () => {
             </Button>
           </div>
           <div className="search-container animate__animated animate__fadeInUp animate__delay-2s">
-            <InputGroup
-              className="mb-3 rounded p-2"
-              style={{ 
-                maxWidth: 600, 
-                margin: "0 auto", 
-                background: "rgba(255,255,255,0.9)",
-                backdropFilter: "blur(10px)",
-                boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                border: "1px solid rgba(255,255,255,0.3)",
-                borderRadius: "50px"
-              }}
-            >
-              <Form.Control
-                placeholder="Search for tours, cities or places..."
-                aria-label="Search"
+            <Form onSubmit={handleSearch}>
+              <InputGroup
+                className="mb-3 rounded p-2"
                 style={{ 
-                  border: "none", 
-                  background: "transparent", 
-                  paddingLeft: "20px",
-                  fontSize: "1.1rem"
-                }}
-              />
-              <Button 
-                variant="primary" 
-                id="button-search"
-                style={{ 
-                  borderRadius: "50px", 
-                  padding: "0.6rem 1.5rem",
-                  marginRight: "5px",
-                  background: "linear-gradient(45deg, #f6ad55, #ed8936)",
-                  border: "none",
-                  boxShadow: "0 4px 15px rgba(237, 137, 54, 0.4)"
+                  maxWidth: 600, 
+                  margin: "0 auto", 
+                  background: "rgba(255,255,255,0.9)",
+                  backdropFilter: "blur(10px)",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  borderRadius: "50px"
                 }}
               >
-                <i className="fas fa-search"></i> Search
-              </Button>
-            </InputGroup>
+                <Form.Control
+                  placeholder="Search for tours, cities or places..."
+                  aria-label="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ 
+                    border: "none", 
+                    background: "transparent", 
+                    paddingLeft: "20px",
+                    fontSize: "1.1rem"
+                  }}
+                />
+                <Button 
+                  variant="primary" 
+                  id="button-search"
+                  type="submit"
+                  style={{ 
+                    borderRadius: "50px", 
+                    padding: "0.6rem 1.5rem",
+                    marginRight: "5px",
+                    background: "linear-gradient(45deg, #f6ad55, #ed8936)",
+                    border: "none",
+                    boxShadow: "0 4px 15px rgba(237, 137, 54, 0.4)"
+                  }}
+                >
+                  <i className="fas fa-search"></i> Search
+                </Button>
+              </InputGroup>
+            </Form>
           </div>
         </Container>
         {/* Background pattern overlay */}

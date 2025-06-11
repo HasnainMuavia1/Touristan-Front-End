@@ -8,7 +8,7 @@ import {
   Form,
   Spinner,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchPackagesDirectly } from "../utils/api";
 
 // Fallback packages data if API fails
@@ -83,6 +83,7 @@ const fallbackPackages = [
 
 const Packages = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -113,7 +114,14 @@ const Packages = () => {
   };
   useEffect(() => {
     loadPackages();
-  }, []);
+    
+    // Extract search query from URL if present
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+    }
+  }, [location.search]);
 
   // Filter packages based on search term
   const filteredPackages = packages.filter(
@@ -137,13 +145,31 @@ const Packages = () => {
         Discover the breathtaking beauty of Pakistan's northern and urban areas.
       </p>
       <Form className="d-flex justify-content-center mb-4">
-        <Form.Control
-          style={{ maxWidth: 400 }}
-          type="text"
-          placeholder="Search for a tour..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="d-flex" style={{ maxWidth: 500, width: '100%' }}>
+          <Form.Control
+            style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+            type="text"
+            placeholder="Search for a tour..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button 
+            variant="primary" 
+            onClick={() => {
+              // Update URL with search parameter without page reload
+              const searchParams = new URLSearchParams(location.search);
+              if (searchTerm) {
+                searchParams.set('search', searchTerm);
+              } else {
+                searchParams.delete('search');
+              }
+              navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
+            }}
+            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+          >
+            <i className="fas fa-search"></i>
+          </Button>
+        </div>
       </Form>
 
       {loading ? (
