@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Alert, Tab, Nav, InputGroup } from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { login, loginAsAdmin } from "../redux/actions/authActions";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { Form, Button, Alert, InputGroup, Nav, Tab } from "react-bootstrap";
 import "../styles/password-toggle.css";
 
 const Login = ({

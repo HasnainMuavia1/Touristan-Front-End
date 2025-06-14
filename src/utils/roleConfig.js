@@ -12,6 +12,10 @@ const roleConfig = {
       "/admin/settings",
       "/admin/reviews",
       "/admin/contacts",
+      "/admin/package-suggestions",
+      "/admin/approved-suggestions",
+      "/admin/edit-suggestion/:id",
+      "/admin/messages",
     ],
   },
   user: {

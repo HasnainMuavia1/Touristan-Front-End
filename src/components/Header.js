@@ -19,6 +19,8 @@ const navLinks = [
   { path: "/about", label: "About" },
   { path: "/services", label: "Services" },
   { path: "/packages", label: "Packages" },
+  { path: "/posts", label: "Posts" },
+  { path: "/create-suggestion", label: "Suggest Package" },
   { path: "/leave-review", label: "Leave Review" },
   { path: "/contact", label: "Contact" },
 ];
@@ -180,6 +182,14 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
           <Dropdown.Item as={NavLink} to="/bookings" className="py-2">
             <i className="fas fa-calendar-check me-2 text-primary"></i>
             My Bookings
+          </Dropdown.Item>
+          <Dropdown.Item as={NavLink} to="/posts" className="py-2">
+            <i className="fas fa-newspaper me-2 text-primary"></i>
+            Posts
+          </Dropdown.Item>
+          <Dropdown.Item as={NavLink} to="/my-suggestions" className="py-2">
+            <i className="fas fa-lightbulb me-2 text-primary"></i>
+            My Package Suggestions
           </Dropdown.Item>
           <Dropdown.Item onClick={handleOpenMessagesModal} className="py-2">
             <i className="fas fa-envelope me-2 text-primary"></i>
@@ -371,29 +381,36 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
               className="mx-auto align-items-center justify-content-center"
               style={{ flex: 1 }}
             >
-              {navLinks.map((link) => (
-                <Nav.Link
-                  key={link.path}
-                  as={NavLink}
-                  to={link.path}
-                  className={`mx-1 ${isActive(link.path)}`}
-                  style={({ isActive }) => ({
-                    fontWeight: isActive ? "bold" : "normal",
-                    color: isActive ? "#2c5282" : "",
-                    background: isActive ? "rgba(246,173,85,0.12)" : "none",
-                    borderRadius: isActive ? "1rem" : "0",
-                    paddingLeft: 16,
-                    paddingRight: 16,
-                    transition: "all 0.2s",
-                    boxShadow: isActive
-                      ? "0 2px 8px rgba(44,82,130,0.08)"
-                      : "none",
+              {navLinks.map((link) => {
+                // Skip the Suggest Package link if user is not authenticated
+                if (link.path === "/create-suggestion" && !isAuthenticated) {
+                  return null;
+                }
+                
+                return (
+                  <Nav.Link
+                    key={link.path}
+                    as={NavLink}
+                    to={link.path}
+                    className={`mx-1 ${isActive(link.path)}`}
+                    style={({ isActive }) => ({
+                      fontWeight: isActive ? "bold" : "normal",
+                      color: isActive ? "#2c5282" : "",
+                      background: isActive ? "rgba(246,173,85,0.12)" : "none",
+                      borderRadius: isActive ? "1rem" : "0",
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                      transition: "all 0.2s",
+                      boxShadow: isActive
+                        ? "0 2px 8px rgba(44,82,130,0.08)"
+                        : "none"
                   })}
                   end={link.exact}
                 >
                   {link.label}
                 </Nav.Link>
-              ))}
+                );
+              })}
             </Nav>
 
             {/* User Actions - Right Side */}

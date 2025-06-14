@@ -34,17 +34,26 @@ import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
 import UserReviews from "./pages/UserReviews";
 import UserMessages from "./pages/UserMessages";
+import Posts from "./pages/Posts";
+import UserProfile from "./pages/UserProfile";
+import MySuggestions from "./pages/MySuggestions";
+import CreateSuggestion from "./pages/CreateSuggestion";
+import EditSuggestion from "./pages/EditSuggestion";
+import SuggestionDetail from "./pages/SuggestionDetail";
 
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
+import AdminUsers from "./pages/admin/Users";
 import AdminPackages from "./pages/admin/Packages";
 import AdminBookings from "./pages/admin/Bookings";
-import AdminUsers from "./pages/admin/Users";
+import AdminReviews from "./pages/admin/Reviews";
+import AdminMessages from "./pages/admin/Messages";
+import AdminPackageSuggestions from "./pages/admin/PackageSuggestions";
+import AdminTransactions from "./pages/admin/Transactions";
+import ApprovedSuggestions from "./pages/admin/ApprovedSuggestions";
+import AdminContacts from "./pages/admin/Contacts";
 import AdminPayments from "./pages/admin/Payments";
 import AdminSettings from "./pages/admin/Settings";
-import AdminTransactions from "./pages/admin/Transactions";
-import AdminReviews from "./pages/admin/Reviews";
-import AdminContacts from "./pages/admin/Contacts";
 
 // Components
 import Header from "./components/Header";
@@ -178,7 +187,7 @@ const App = () => {
               </AppLayout>
             }
           />
-          
+
           {/* Protected routes with navbar/footer */}
           <Route
             path="/profile"
@@ -236,6 +245,64 @@ const App = () => {
               <PrivateRoute>
                 <AppLayout>
                   <UserMessages />
+                </AppLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/posts"
+            element={
+              <AppLayout>
+                <Posts />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/user/:userId"
+            element={
+              <AppLayout>
+                <UserProfile />
+              </AppLayout>
+            }
+          />
+
+          {/* Package Suggestion Routes */}
+          <Route
+            path="/my-suggestions"
+            element={
+              <PrivateRoute>
+                <AppLayout>
+                  <MySuggestions />
+                </AppLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-suggestion"
+            element={
+              <PrivateRoute>
+                <AppLayout>
+                  <CreateSuggestion />
+                </AppLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/my-suggestions/:id"
+            element={
+              <PrivateRoute>
+                <AppLayout>
+                  <SuggestionDetail />
+                </AppLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/my-suggestions/edit/:id"
+            element={
+              <PrivateRoute>
+                <AppLayout>
+                  <EditSuggestion />
                 </AppLayout>
               </PrivateRoute>
             }
@@ -328,6 +395,46 @@ const App = () => {
               <RoleBasedRoute requiredRole="admin">
                 <AdminLayout>
                   <AdminContacts />
+                </AdminLayout>
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/admin/messages"
+            element={
+              <RoleBasedRoute requiredRole="admin">
+                <AdminLayout>
+                  <AdminMessages />
+                </AdminLayout>
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/admin/package-suggestions"
+            element={
+              <RoleBasedRoute requiredRole="admin">
+                <AdminLayout>
+                  <AdminPackageSuggestions />
+                </AdminLayout>
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/admin/approved-suggestions"
+            element={
+              <RoleBasedRoute requiredRole="admin">
+                <AdminLayout>
+                  <ApprovedSuggestions />
+                </AdminLayout>
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/admin/edit-suggestion/:id"
+            element={
+              <RoleBasedRoute requiredRole="admin">
+                <AdminLayout>
+                  <EditSuggestion isAdmin={true} />
                 </AdminLayout>
               </RoleBasedRoute>
             }

@@ -114,6 +114,14 @@ const AdminSidebar = () => {
         </Nav.Link>
         <Nav.Link 
           as={Link} 
+          to="/admin/package-suggestions" 
+          className={`${isActive('/admin/package-suggestions')}`}
+          style={linkStyle}
+        >
+          <i className="fas fa-lightbulb me-2 text-primary"></i> Package Suggestions
+        </Nav.Link>
+        <Nav.Link 
+          as={Link} 
           to="/admin/contacts" 
           className={`${isActive('/admin/contacts')}`}
           style={linkStyle}
