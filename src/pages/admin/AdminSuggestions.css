@@ -1,0 +1,114 @@
+/* Admin Suggestions Page Styling */
+.suggestion-card-grid {
+  margin-top: 1rem;
+}
+
+/* Card hover effect for admin view */
+.admin-card-hover {
+  transition: all 0.3s ease;
+}
+
+.admin-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Status filter tabs styling */
+.nav-tabs .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #495057;
+  border-color: rgba(0, 123, 255, 0.3);
+}
+
+.nav-tabs .nav-link.active {
+  color: #007bff;
+  border-color: #007bff;
+  background-color: transparent;
+}
+
+/* Admin action buttons */
+.admin-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.admin-approve-btn {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: none;
+}
+
+.admin-approve-btn:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.admin-reject-btn {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: none;
+}
+
+.admin-reject-btn:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Empty state styling */
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: #adb5bd;
+  margin-bottom: 1rem;
+}
+
+/* Pagination styling */
+.pagination .page-link {
+  color: #007bff;
+  border-radius: 4px;
+  margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Admin feedback section in cards */
+.admin-feedback-section {
+  padding: 12px;
+  background-color: rgba(0, 123, 255, 0.05);
+  border-top: 1px solid rgba(0, 123, 255, 0.1);
+  border-radius: 0 0 8px 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .suggestion-card-grid {
+    margin-top: 0.5rem;
+  }
+  
+  .nav-tabs .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}
