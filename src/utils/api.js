@@ -165,7 +165,13 @@ export const disablePackage = async (id) => {
 
 export const uploadPackageImage = async (id, imageData) => {
   try {
-    const response = await api.put(`/packages/${id}/image`, imageData, {
+    // If id is "temp", use the temporary upload endpoint
+    const endpoint = id === "temp" 
+      ? "/packages/temp/image" 
+      : `/packages/${id}/image`;
+    const method = id === "temp" ? "post" : "put";
+    
+    const response = await api[method](endpoint, imageData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -178,7 +184,13 @@ export const uploadPackageImage = async (id, imageData) => {
 
 export const uploadPackageImages = async (id, imagesData) => {
   try {
-    const response = await api.put(`/packages/${id}/images`, imagesData, {
+    // If id is "temp", use the temporary upload endpoint
+    const endpoint = id === "temp" 
+      ? "/packages/temp/images" 
+      : `/packages/${id}/images`;
+    const method = id === "temp" ? "post" : "put";
+    
+    const response = await api[method](endpoint, imagesData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

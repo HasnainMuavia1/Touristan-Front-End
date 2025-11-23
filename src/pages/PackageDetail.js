@@ -232,6 +232,112 @@ const TourRouteMap = ({ coordinates }) => {
   );
 };
 
+// Helper function to extract Sketchfab model ID from CDN URL
+const extractSketchfabModelId = (cdnUrl) => {
+  if (!cdnUrl || typeof cdnUrl !== 'string') return null;
+  
+  // Remove any query parameters or fragments
+  const cleanUrl = cdnUrl.split('?')[0].split('#')[0];
+  
+  // Extract model ID from URL format: https://sketchfab.com/3d-models/...-{MODEL_ID}
+  // The model ID is always 32 hexadecimal characters at the end after the last dash
+  const match = cleanUrl.match(/3d-models\/[^\/]+-([a-f0-9]{32})$/);
+  if (match && match[1]) {
+    return match[1];
+  }
+  
+  // Fallback: try to get the last segment after the last dash
+  const segments = cleanUrl.split('/');
+  const lastSegment = segments[segments.length - 1];
+  
+  // Split by dash and get the last part (which should be the 32-char model ID)
+  const parts = lastSegment.split('-');
+  const modelId = parts[parts.length - 1];
+  
+  // Verify it's exactly 32 hexadecimal characters
+  if (modelId && /^[a-f0-9]{32}$/i.test(modelId)) {
+    return modelId;
+  }
+  
+  // Additional fallback: look for any 32-character hex string in the URL
+  const hexMatch = cleanUrl.match(/([a-f0-9]{32})/i);
+  if (hexMatch && hexMatch[1]) {
+    return hexMatch[1];
+  }
+  
+  return null;
+};
+
+// Sketchfab embed component
+const SketchfabEmbed = ({ cdnUrl, hotelName }) => {
+  const modelId = extractSketchfabModelId(cdnUrl);
+  
+  if (!modelId) {
+    return null;
+  }
+  
+  const embedUrl = `https://sketchfab.com/models/${modelId}/embed`;
+  const modelUrl = cdnUrl;
+  
+  return (
+    <div className="sketchfab-embed-wrapper mb-4" style={{ 
+      position: 'relative', 
+      paddingBottom: '56.25%', 
+      height: 0, 
+      overflow: 'hidden',
+      maxWidth: '100%',
+      background: '#000'
+    }}>
+      <iframe
+        title={hotelName || "3D Model"}
+        frameBorder="0"
+        allowFullScreen
+        mozAllowFullScreen="true"
+        webkitAllowFullScreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        xr-spatial-tracking
+        execution-while-out-of-viewport
+        execution-while-not-rendered
+        web-share
+        src={embedUrl}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%'
+        }}
+      />
+      <p style={{ 
+        fontSize: '13px', 
+        fontWeight: 'normal', 
+        margin: '5px', 
+        color: '#4A4A4A',
+        textAlign: 'center',
+        marginTop: '10px'
+      }}>
+        <a
+          href={`${modelUrl}?utm_medium=embed&utm_campaign=share-popup&utm_content=${modelId}`}
+          target="_blank"
+          rel="nofollow"
+          style={{ fontWeight: 'bold', color: '#1CAAD9' }}
+        >
+          {hotelName || '3D Model'}
+        </a>
+        {' on '}
+        <a
+          href={`https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=${modelId}`}
+          target="_blank"
+          rel="nofollow"
+          style={{ fontWeight: 'bold', color: '#1CAAD9' }}
+        >
+          Sketchfab
+        </a>
+      </p>
+    </div>
+  );
+};
+
 // Package detail page component
 const PackageDetail = () => {
   const location = useLocation();
@@ -476,6 +582,21 @@ const PackageDetail = () => {
                     <Tab.Pane eventKey="overview">
                       <h4 className="mb-3">Package Overview</h4>
                       <p>{pkg.desc}</p>
+                      
+                      {/* Sketchfab 3D Model Embed */}
+                      {pkg.cdn && (
+                        <div className="mt-4 mb-4">
+                          <h5 className="mb-3">3D Hotel View</h5>
+                          {pkg.hotelName && (
+                            <p className="text-muted mb-3">
+                              <i className="fas fa-building me-2"></i>
+                              {pkg.hotelName}
+                            </p>
+                          )}
+                          <SketchfabEmbed cdnUrl={pkg.cdn} hotelName={pkg.hotelName} />
+                        </div>
+                      )}
+                      
                       <h5 className="mt-4 mb-3">Package Includes</h5>
                       <ul className="list-unstyled">
                         <li>

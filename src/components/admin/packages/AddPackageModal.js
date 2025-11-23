@@ -42,6 +42,8 @@ const AddPackageModal = ({ show, onHide }) => {
     images: [],
     itinerary: [{ day: 1, title: "", description: "" }],
     featured: false,
+    hotelName: "",
+    cdn: "",
   };
 
   // Validation schema
@@ -117,19 +119,21 @@ const AddPackageModal = ({ show, onHide }) => {
       const formData = new FormData();
       formData.append("image", mainImageFile);
 
-      // Use the uploadPackageImage API function
-      // Since we don't have an ID yet, we'll use a temporary endpoint
+      // Use the uploadPackageImage API function with "temp" to use temporary endpoint
       const response = await uploadPackageImage("temp", formData);
 
       setUploadingMain(false);
       
       // Update the form field with the new image URL
-      if (response.data && response.data.url) {
-        setFieldValue("img", response.data.url);
+      // Response structure: { success: true, url: "...", data: { url: "..." } }
+      const imageUrl = response?.url || response?.data?.url;
+      if (imageUrl) {
+        setFieldValue("img", imageUrl);
         setMainImageFile(null); // Reset the file input after successful upload
+        return imageUrl;
+      } else {
+        throw new Error("No image URL returned from server");
       }
-      
-      return response.data.url;
     } catch (err) {
       setError(
         "Failed to upload main image: " +
@@ -152,21 +156,23 @@ const AddPackageModal = ({ show, onHide }) => {
         formData.append("images", file);
       });
 
-      // Use the uploadPackageImages API function
-      // Since we don't have an ID yet, we'll use a temporary endpoint
+      // Use the uploadPackageImages API function with "temp" to use temporary endpoint
       const response = await uploadPackageImages("temp", formData);
 
       setUploadingGallery(false);
       
       // Update the form field with the new image URLs
-      if (response.data && response.data.urls && response.data.urls.length > 0) {
+      // Response structure: { success: true, urls: [...], data: { urls: [...] } }
+      const imageUrls = response?.urls || response?.data?.urls;
+      if (imageUrls && imageUrls.length > 0) {
         const currentImages = values.images || [];
-        setFieldValue("images", [...currentImages, ...response.data.urls]);
+        setFieldValue("images", [...currentImages, ...imageUrls]);
         setGalleryFiles([]); // Reset the files after successful upload
         setGalleryPreviews([]); // Clear previews
+        return imageUrls;
+      } else {
+        throw new Error("No image URLs returned from server");
       }
-      
-      return response.data.urls;
     } catch (err) {
       setError(
         "Failed to upload gallery images: " +
@@ -416,6 +422,46 @@ const AddPackageModal = ({ show, onHide }) => {
                         {errors.desc}
                       </Form.Control.Feedback>
                     </Form.Group>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Hotel Name</Form.Label>
+                          <div className="input-group">
+                            <span className="input-group-text bg-white border-end-0">
+                              <i className="bi bi-building"></i>
+                            </span>
+                            <Form.Control
+                              type="text"
+                              name="hotelName"
+                              className="border-start-0"
+                              value={values.hotelName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder="Enter hotel name"
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>CDN Link</Form.Label>
+                          <div className="input-group">
+                            <span className="input-group-text bg-white border-end-0">
+                              <i className="bi bi-link-45deg"></i>
+                            </span>
+                            <Form.Control
+                              type="text"
+                              name="cdn"
+                              className="border-start-0"
+                              value={values.cdn}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder="https://example.com/cdn-link"
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                    </Row>
                     <Form.Group className="mb-3">
                       <Form.Check
                         type="checkbox"

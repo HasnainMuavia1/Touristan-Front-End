@@ -45,6 +45,8 @@ const EditPackageModal = ({ show, onHide, packageData }) => {
       { day: 1, title: "", description: "" },
     ],
     featured: packageData?.featured || false,
+    hotelName: packageData?.hotelName || "",
+    cdn: packageData?.cdn || "",
   };
 
   // Set main image preview if exists
@@ -424,6 +426,46 @@ const EditPackageModal = ({ show, onHide, packageData }) => {
                         {errors.desc}
                       </Form.Control.Feedback>
                     </Form.Group>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Hotel Name</Form.Label>
+                          <div className="input-group">
+                            <span className="input-group-text bg-white border-end-0">
+                              <i className="bi bi-building"></i>
+                            </span>
+                            <Form.Control
+                              type="text"
+                              name="hotelName"
+                              className="border-start-0"
+                              value={values.hotelName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder="Enter hotel name"
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>CDN Link</Form.Label>
+                          <div className="input-group">
+                            <span className="input-group-text bg-white border-end-0">
+                              <i className="bi bi-link-45deg"></i>
+                            </span>
+                            <Form.Control
+                              type="text"
+                              name="cdn"
+                              className="border-start-0"
+                              value={values.cdn}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder="https://example.com/cdn-link"
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                    </Row>
                     <Form.Group className="mb-3">
                       <Form.Check
                         type="checkbox"
