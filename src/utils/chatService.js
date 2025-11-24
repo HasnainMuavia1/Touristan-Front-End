@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 // Send chat message through backend API (which uses Groq)
 // The Groq API key is stored securely in the backend environment variables
@@ -6,9 +6,7 @@ export const sendChatMessage = async (messages) => {
   try {
     // Send to backend API endpoint which handles Groq API integration
     // The backend uses process.env.GROQ_API_KEY from server environment
-    const response = await axios.post('/api/chat/message', {
-      messages: messages
-    });
+    const response = await api.post('/chat/message', { messages });
     
     if (response.data.success) {
       return response.data.response;
